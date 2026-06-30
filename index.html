@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SVG Heart Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+
+    <!-- SEO and Preview Meta Tags -->
+    <title>Happy Birthday Teena 🎂</title>
+    <meta name="description" content="A special birthday surprise made with care for an awesome friend.">
+    <meta property="og:title" content="Happy Birthday Teena 🎉">
+    <meta property="og:description" content="Click to open your surprise birthday gift... 🌟">
+    <meta property="og:image" content="https://placehold.co/600x400/ffebe7/d47b84?text=Happy+Birthday+Teena!+🎂">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts: Soft romantic serif (Playfair Display) + clean modern sans-serif (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Canvas Confetti Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <!-- html2canvas Library via CDN for Page Screenshot Capture -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* COLOR THEME VARIABLES - DESIGNED TO BE CELEBRATORY, PASTEL, AND CLEAN */
+        :root {
+            color-scheme: light;
+            --primary-bg: #FCF7F5;
+            /* Calm warm cream */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            /* Glassmorphic white */
+            --text-color: #4A3E3D;
+            /* Soft warm charcoal */
+            --text-light: #8E7D7C;
+            /* Elegant secondary gray */
+            --blush-pink: #FFCCD1;
+            /* Light blush pastel pink */
+            --blush-deep: #D47B84;
+            /* Deep rose accent color */
+            --lavender-light: #EBE5F2;
+            /* Soft pastel lavender */
+            --lavender-deep: #8E78A0;
+            /* Deep lavender accent */
+            --shadow-soft: 0 15px 35px rgba(212, 123, 132, 0.08);
+            --shadow-hover: 0 20px 45px rgba(212, 123, 132, 0.15);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        /* MEMORIES LOADING SCREEN */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .heart-loader {
+            font-size: 3.2rem;
+            color: var(--blush-deep);
+            animation: pulseScale 1.2s infinite ease-in-out;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(212, 123, 132, 0.3));
+        }
+
+        @keyframes pulseScale {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.85;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+                filter: drop-shadow(0 0 18px rgba(212, 123, 132, 0.55));
+            }
+        }
+
+        .loading-text {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            color: var(--text-light);
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        /* SCROLL PROGRESS INDICATOR */
+        .scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: transparent;
+            z-index: 1005;
+            pointer-events: none;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--blush-pink), var(--blush-deep));
+            transition: width 0.1s ease-out;
+        }
+
+        /* GLOBAL STYLES & RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            transition: opacity 1s ease;
+        }
+
+        body:not(.loaded) {
+            overflow: hidden !important;
+            height: 100vh;
+        }
+
+        /* PAGE GRADIENT OVERLAYS */
+        .page-gradient-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(252, 247, 245, 0.9) 0%, rgba(252, 247, 245, 0) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .page-gradient-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(0deg, rgba(252, 247, 245, 0.9) 0%, rgba(252, 247, 245, 0) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* BACKGROUND DECORATIVE GLOWS */
+        .decorations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+        }
+
+        .glow-top {
+            top: -15%;
+            left: -5%;
+            width: 45vw;
+            height: 45vw;
+            background-color: var(--blush-pink);
+        }
+
+        .glow-bottom {
+            bottom: -15%;
+            right: -5%;
+            width: 50vw;
+            height: 50vw;
+            background-color: var(--lavender-light);
+        }
+
+        /* REUSABLE LAYOUT CLASSES */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 90px 24px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--blush-deep);
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 45px;
+            text-align: center;
+            max-width: 480px;
+            font-weight: 300;
+        }
+
+        .btn {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: white;
+            background-color: var(--blush-deep);
+            border: none;
+            padding: 13px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(212, 123, 132, 0.2);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 10px 22px rgba(212, 123, 132, 0.35), 0 0 12px rgba(212, 123, 132, 0.25);
+            background-color: #c76c76;
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--blush-deep);
+            color: var(--blush-deep);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-soft);
+            color: var(--blush-deep);
+            box-shadow: none;
+        }
+
+        /* SCROLL REVEAL CLASS */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* FLOATING MUSIC TOGGLE BUTTON */
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid rgba(247, 214, 208, 0.6);
+            box-shadow: var(--shadow-soft);
+            z-index: 1000;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            color: var(--blush-deep);
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: var(--shadow-hover), 0 0 10px rgba(212, 123, 132, 0.25);
+            background: #fff;
+        }
+
+        .music-toggle i {
+            font-size: 1rem;
+        }
+
+        .music-toggle.muted i::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 1.5px;
+            background: var(--blush-deep);
+            transform: rotate(-45deg);
+            top: 22px;
+            left: 13px;
+        }
+
+
+        /* ========================================== */
+        /* 1. HERO/LANDING SECTION                    */
+        /* ========================================== */
+        #hero {
+            height: 100vh;
+            padding: 0;
+            z-index: 10;
+            background: radial-gradient(circle, rgba(252, 247, 245, 1) 0%, rgba(254, 235, 236, 1) 100%);
+            text-align: center;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        body.loaded .hero-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-title-box {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--blush-deep);
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(120deg, var(--blush-deep) 0%, #eb8c96 25%, #f2b3b8 50%, #eb8c96 75%, var(--blush-deep) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmer 5s linear infinite;
+            text-shadow: 0 0 15px rgba(212, 123, 132, 0.1);
+        }
+
+        @keyframes textShimmer {
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 2.1rem;
+            }
+
+            .hero-title-box {
+                min-height: 75px;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 300;
+            margin-bottom: 35px;
+            opacity: 0;
+        }
+
+        body.loaded .hero-subtitle {
+            animation: fadeInHeroText 1.5s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        .hero-btn-wrap {
+            opacity: 0;
+        }
+
+        body.loaded .hero-btn-wrap {
+            animation: fadeInHeroText 1.5s ease forwards;
+            animation-delay: 1.4s;
+        }
+
+        @keyframes fadeInHeroText {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: var(--blush-deep);
+            margin-left: 4px;
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        @keyframes blinkCursor {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: var(--blush-deep);
+            font-size: 1.3rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            animation: bounceChevron 2.5s infinite;
+            outline: none;
+        }
+
+        @keyframes bounceChevron {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+
+            40% {
+                transform: translate(-50%, -10px);
+            }
+
+            60% {
+                transform: translate(-50%, -5px);
+            }
+        }
+
+
+        /* ========================================== */
+        /* 2. PHOTO GALLERY SECTION                  */
+        /* ========================================== */
+        #gallery {
+            background-color: #fff;
+            justify-content: flex-start;
+        }
+
+        .gallery-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--primary-bg);
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: var(--shadow-soft), 0 0 20px rgba(212, 123, 132, 0.15);
+            border: 1.5px solid rgba(212, 123, 132, 0.35);
+            animation: borderPulse 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes borderPulse {
+            0% {
+                box-shadow: var(--shadow-soft), 0 0 15px rgba(212, 123, 132, 0.12);
+                border-color: rgba(212, 123, 132, 0.3);
+            }
+
+            100% {
+                box-shadow: var(--shadow-soft), 0 0 25px rgba(212, 123, 132, 0.32);
+                border-color: rgba(212, 123, 132, 0.7);
+            }
+        }
+
+        .slideshow-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        @media (max-width: 480px) {
+            .slideshow-wrapper {
+                aspect-ratio: 4 / 3;
+            }
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            transform: scale(1.02);
+        }
+
+        /* Instant slide transition class used for snappy manual navigation */
+        .slide.instant {
+            transition: none !important;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .slide:hover img {
+            transform: scale(1.04);
+        }
+
+        .slide img[src*="img6.jpeg"] {
+            object-position: center 20%;
+        }
+
+
+        .slide-caption-box {
+            padding: 15px 15px 5px 15px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-caption {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-style: italic;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.5s ease 0.35s, transform 0.5s ease 0.35s;
+            border: 1px dashed transparent;
+            cursor: text;
+            outline: none;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .slide-caption:hover {
+            background-color: rgba(212, 123, 132, 0.05);
+            border-color: rgba(212, 123, 132, 0.3);
+        }
+
+        .slide-caption:focus {
+            background-color: #fff;
+            border-color: var(--blush-deep);
+            box-shadow: 0 0 8px rgba(212, 123, 132, 0.15);
+            font-style: normal;
+        }
+
+        .slide.active .slide-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slideshow-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: none;
+            border: none;
+            color: var(--blush-deep);
+            font-size: 1rem;
+            cursor: pointer;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .nav-arrow:hover {
+            background-color: var(--blush-pink);
+            transform: scale(1.1);
+            box-shadow: 0 0 8px rgba(212, 123, 132, 0.2);
+        }
+
+        .nav-arrow:active {
+            transform: scale(0.92);
+        }
+
+        .dots-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #E2D9D8;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .indicator-dot.active {
+            background-color: var(--blush-deep);
+            transform: scale(1.15);
+            width: 16px;
+            border-radius: 4px;
+        }
+
+
+        /* ========================================== */
+        /* 3. MESSAGE/LETTER SECTION                  */
+        /* ========================================== */
+        #letter {
+            background: linear-gradient(180deg, #fff 0%, var(--primary-bg) 100%);
+        }
+
+        .stationary-letter {
+            width: 100%;
+            max-width: 580px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px 35px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(247, 214, 208, 0.1);
+            position: relative;
+        }
+
+        /* Double border decoration */
+        .stationary-letter::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            border: 1px dashed rgba(212, 123, 132, 0.25);
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .letter-content {
+            font-size: 0.95rem;
+            color: #554A49;
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+
+        .reveal-paragraph {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1s ease, transform 1s ease;
+            margin-bottom: 22px;
+        }
+
+        .reveal-paragraph.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-paragraph:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 480px) {
+            .stationary-letter {
+                padding: 35px 20px;
+            }
+        }
+
+
+        /* ========================================== */
+        /* 4. CUTE INTERACTIVE SECTION                */
+        /* ========================================== */
+        #interactive {
+            background-color: #fff;
+        }
+
+        .surprise-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            max-width: 650px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 550px) {
+            .surprise-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .surprise-card {
+            background-color: var(--primary-bg);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(247, 214, 208, 0.3);
+        }
+
+        .surprise-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--blush-pink);
+        }
+
+        .surprise-icon {
+            font-size: 2.2rem;
+            color: var(--blush-deep);
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .surprise-card:hover .surprise-icon {
+            transform: scale(1.15) rotate(4deg);
+        }
+
+        .surprise-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .surprise-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        /* Trail heart styles */
+        .trail-heart-node {
+            position: fixed;
+            pointer-events: none;
+            width: 12px;
+            height: 12px;
+            background: var(--blush-deep);
+            transform: rotate(45deg);
+            opacity: 0.6;
+            z-index: 10000;
+            animation: trailFloat 0.9s ease-out forwards;
+        }
+
+        .trail-heart-node::before,
+        .trail-heart-node::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: inherit;
+        }
+
+        .trail-heart-node::before {
+            left: -6px;
+        }
+
+        .trail-heart-node::after {
+            top: -6px;
+        }
+
+        @keyframes trailFloat {
+            0% {
+                transform: translateY(0) rotate(45deg) scale(1);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-50px) rotate(80deg) scale(0.15);
+                opacity: 0;
+            }
+        }
+
+        /* Floating Balloon styles */
+        .balloon {
+            position: fixed;
+            bottom: -150px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            z-index: 1000;
+            box-shadow: inset -5px -10px 15px rgba(0, 0, 0, 0.06), 0 10px 20px rgba(0, 0, 0, 0.07);
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 15%;
+            width: 20%;
+            height: 15%;
+            background: rgba(255, 255, 255, 0.45);
+            border-radius: 50%;
+        }
+
+        .balloon-knot {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 7px solid;
+        }
+
+        .balloon-string {
+            position: absolute;
+            bottom: -55px;
+            left: 50%;
+            width: 1px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        @keyframes floatBalloon {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 110vh;
+            }
+        }
+
+        @keyframes swayBalloon {
+            0% {
+                transform: translateX(-12px);
+            }
+
+            100% {
+                transform: translateX(12px);
+            }
+        }
+
+        .balloon.popping {
+            animation: popAnim 0.12s ease-out forwards !important;
+            pointer-events: none;
+        }
+
+        @keyframes popAnim {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+
+        /* ========================================== */
+        /* 5. CLOSING SECTION                         */
+        /* ========================================== */
+        #closing {
+            background-color: var(--primary-bg);
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .closing-heart {
+            font-size: 1.8rem;
+            color: var(--blush-deep);
+            margin-bottom: 15px;
+            animation: heartPulse 1.3s infinite alternate ease-in-out;
+        }
+
+        @keyframes heartPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.22);
+            }
+        }
+
+        .closing-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+
+        /* ========================================== */
+        /* MODAL WINDOWS                              */
+        /* ========================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(74, 62, 61, 0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background-color: #ffffff;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            padding: 40px 30px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+            position: relative;
+            transform: scale(0.92);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            border: 1px solid rgba(247, 214, 208, 0.25);
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.6rem;
+            color: var(--text-light);
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--blush-deep);
+        }
+
+        .modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--blush-deep);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* CAKE INTERACTIVE SYSTEM */
+        .cake-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 25px 0;
+        }
+
+        .cake {
+            position: relative;
+            width: 140px;
+            height: 110px;
+            margin-top: 25px;
+        }
+
+        .plate {
+            position: absolute;
+            bottom: 0;
+            width: 180px;
+            height: 8px;
+            background: #E8DFDD;
+            border-radius: 8px;
+            left: -20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .cake-layer {
+            position: absolute;
+            width: 140px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.04);
+        }
+
+        .layer-bottom {
+            bottom: 8px;
+            height: 36px;
+            background: var(--blush-pink);
+        }
+
+        .layer-middle {
+            bottom: 44px;
+            height: 32px;
+            background: var(--lavender-light);
+            width: 120px;
+            left: 10px;
+        }
+
+        .layer-top {
+            bottom: 76px;
+            height: 26px;
+            background: #FFFAF7;
+            width: 100px;
+            left: 20px;
+        }
+
+        .icing-drips {
+            position: absolute;
+            top: 8px;
+            left: 20px;
+            width: 100px;
+            height: 5px;
+            background: var(--blush-deep);
+            border-radius: 5px;
+        }
+
+        .candle {
+            position: absolute;
+            bottom: 102px;
+            left: 66px;
+            width: 8px;
+            height: 22px;
+            border-radius: 2px;
+            background: repeating-linear-gradient(45deg,
+                    var(--blush-deep),
+                    var(--blush-deep) 3px,
+                    #fff 3px,
+                    #fff 6px);
+        }
+
+        .flame {
+            position: absolute;
+            top: -14px;
+            left: -3px;
+            width: 14px;
+            height: 18px;
+            background: radial-gradient(ellipse at bottom, #ffeb3b 0%, #ff5722 75%, #ff5722 100%);
+            border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+            box-shadow: 0 0 10px #ff9800, 0 0 20px #ffc107;
+            animation: flickerAnim 0.6s infinite alternate;
+            cursor: pointer;
+            transition: opacity 0.4s ease;
+        }
+
+        .flame.blown {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes flickerAnim {
+            0% {
+                transform: scale(0.95) rotate(-1deg);
+            }
+
+            100% {
+                transform: scale(1.1) rotate(1deg);
+            }
+        }
+
+        .wish-reveal-box {
+            animation: fadeInSuccess 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeInSuccess {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .wish-reveal-icon {
+            font-size: 2.5rem;
+            color: #FFC107;
+            margin-bottom: 15px;
+            animation: starBounce 1.5s infinite ease-in-out alternate;
+        }
+
+        /* ========================================== */
+        /* FRIENDSHIP COUNTER & STATS                 */
+        /* ========================================== */
+        .counters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 650px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 550px) {
+            .counters-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .counter-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(247, 214, 208, 0.3);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .counter-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-hover), 0 0 15px rgba(212, 123, 132, 0.15);
+            border-color: var(--blush-pink);
+        }
+
+        .counter-icon {
+            font-size: 2rem;
+            color: var(--blush-deep);
+            margin-bottom: 12px;
+        }
+
+        .counter-num {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--blush-deep);
+            margin-bottom: 8px;
+            outline: none;
+            cursor: text;
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px dashed transparent;
+        }
+
+        .counter-num:hover {
+            background-color: rgba(212, 123, 132, 0.05);
+            border-color: rgba(212, 123, 132, 0.3);
+        }
+
+        .counter-num:focus {
+            background-color: #fff;
+            border-color: var(--blush-deep);
+        }
+
+        .counter-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            outline: none;
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px dashed transparent;
+            cursor: text;
+        }
+
+        .counter-label:hover {
+            background-color: rgba(212, 123, 132, 0.05);
+            border-color: rgba(212, 123, 132, 0.3);
+        }
+
+        .counter-label:focus {
+            background-color: #fff;
+            border-color: var(--blush-deep);
+        }
+
+        /* ========================================== */
+        /* SECRET MESSAGE ENVELOPE                    */
+        /* ========================================== */
+        .envelope-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 450px;
+            height: 280px;
+            margin: 20px auto;
+        }
+
+        .envelope-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .envelope-card.open {
+            transform: rotateY(180deg);
+        }
+
+        .envelope-front,
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(247, 214, 208, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .envelope-front {
+            background: linear-gradient(135deg, #fff3f2 0%, #fff 100%);
+        }
+
+        .envelope-back {
+            background: #ffffff;
+            transform: rotateY(180deg);
+        }
+
+        .envelope-seal {
+            font-size: 3.5rem;
+            color: var(--blush-deep);
+            animation: sealPulse 1.8s infinite alternate ease-in-out;
+            filter: drop-shadow(0 4px 10px rgba(212, 123, 132, 0.25));
+        }
+
+        @keyframes sealPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.12);
+            }
+        }
+
+        .envelope-tap-hint {
+            margin-top: 15px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .secret-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            width: 100%;
+        }
+
+        .secret-quote-icon {
+            font-size: 1.5rem;
+            color: var(--blush-pink);
+            margin-bottom: 8px;
+        }
+
+        .secret-text {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-style: italic;
+            outline: none;
+            cursor: text;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            border-radius: 6px;
+            border: 1px dashed transparent;
+        }
+
+        .secret-text:hover {
+            background-color: rgba(212, 123, 132, 0.05);
+            border-color: rgba(212, 123, 132, 0.3);
+        }
+
+        .secret-text:focus {
+            background-color: #fff;
+            border-color: var(--blush-deep);
+            font-style: normal;
+        }
+
+        .close-envelope-btn {
+            padding: 6px 18px !important;
+            font-size: 0.8rem !important;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Premium Page Gradient Overlays -->
+    <div class="page-gradient-top"></div>
+    <div class="page-gradient-bottom"></div>
+
+    <!-- Memories Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="heart-loader">
+                <i class="fas fa-heart"></i>
+            </div>
+            <p class="loading-text">Memories Loading...</p>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scroll-progress"></div>
+    </div>
+
+    <!-- Background decorative blur dots -->
+    <div class="decorations">
+        <div class="bg-glow glow-top"></div>
+        <div class="bg-glow glow-bottom"></div>
+    </div>
+
+    <!-- Floating Audio Button -->
+    <button class="music-toggle muted" id="music-toggle" aria-label="Toggle Background Music">
+        <i class="fas fa-volume-mute"></i>
+    </button>
+
+    <!-- Background Music Audio Element -->
+    <audio id="bg-music" loop preload="auto">
+        <!-- 
+             Swap this URL with your preferred soft track.
+             Can also be a relative path like 'music.mp3' if saved in the same directory.
+        -->
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ========================================== -->
+    <!-- 1. LANDING/HERO SECTION                    -->
+    <!-- ========================================== -->
+    <section id="hero">
+        <canvas id="hero-canvas"></canvas>
+
+        <div class="hero-content">
+            <div class="hero-title-box">
+                <!-- Dynamically typed greeting -->
+                <h1 class="hero-title" id="typewriter-heading"></h1>
+            </div>
+
+            <p class="hero-subtitle">Something sweet and special, crafted just for a wonderful friend. 🌸</p>
+
+            <div class="hero-btn-wrap">
+                <button class="btn" id="begin-btn">
+                    Click to Begin <i class="fas fa-sparkles"></i>
+                </button>
+            </div>
+        </div>
+
+        <button class="scroll-down" id="scroll-arrow" aria-label="Scroll Down">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. PHOTO GALLERY SECTION                  -->
+    <!-- ========================================== -->
+    <section id="gallery" class="reveal-on-scroll">
+        <h2 class="section-title">Memories Gallery</h2>
+        <p class="section-subtitle">A little throwback to the fun moments, laugh-out-loud conversations, and good times.
+        </p>
+
+        <div class="gallery-container">
+            <div class="slideshow-wrapper">
+                <!-- 
+                     PHOTO SLIDE PLACEHOLDERS
+                     Replace the 'src' path below with your own picture paths (e.g. 'images/pic1.jpg').
+                     Keep image ratios consistent (landscape 3:2 works best).
+                -->
+                <div class="slide active">
+                    <img src="img1.png.jpeg" alt="Throwback Memory 1">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 1 — Click edit to describe a
+                            sweet throwback moment here.</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="img2.jpeg" alt="Good Times">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 2 — Coffee runs, deep chats, or
+                            that one plan we actually ended up completing.</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="img3.jpeg" alt="Fun Moments">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 3 — Another sweet highlight of
+                            our awesome friendship.</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="img4.jpeg" alt="Special Memory 4">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 4 — A wonderful memory with a
+                            wonderful friend.</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="img5.jpeg" alt="Special Memory 5">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 5 — Smiling together and sharing
+                            happy thoughts.</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="img6.jpeg" alt="Special Memory 6">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 6 — Celebrating friendship and
+                            new beginnings.</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="img7.jpeg" alt="Special Memory 7">
+                    <div class="slide-caption-box">
+                        <span class="slide-caption" contenteditable="true">Placeholder 7 — A beautiful snapshot of a
+                            memorable day.</span>
+                    </div>
+                </div>
+
+
+                <!-- Slideshow nav chevrons -->
+                <div class="slideshow-controls">
+                    <button class="nav-arrow" id="prev-btn" aria-label="Previous Slide">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="dots-row" id="dots-row"></div>
+
+                    <button class="nav-arrow" id="next-btn" aria-label="Next Slide">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- NEW FEATURE: FRIENDSHIP STATS / COUNTERS   -->
+    <!-- ========================================== -->
+    <section id="counters" class="reveal-on-scroll">
+        <h2 class="section-title">Friendship Stats</h2>
+        <p class="section-subtitle">Some fun numbers that add up to a wonderful connection. (Click to edit labels or
+            numbers!)</p>
+
+        <div class="counters-grid">
+            <div class="counter-card">
+                <div class="counter-icon"><i class="fas fa-calendar-day"></i></div>
+                <div class="counter-num" contenteditable="true" data-target="1250" id="days-counter">0</div>
+                <div class="counter-label" contenteditable="true" id="days-label">Days of Friendship</div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-icon"><i class="fas fa-camera-retro"></i></div>
+                <div class="counter-num" contenteditable="true" data-target="98" id="memories-counter">0</div>
+                <div class="counter-label" contenteditable="true" id="memories-label">Memories Shared</div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-icon"><i class="fas fa-face-smile-beam"></i></div>
+                <div class="counter-num" contenteditable="true" data-target="10000" data-suffix="+" id="smiles-counter">
+                    0</div>
+                <div class="counter-label" contenteditable="true" id="smiles-label">Smiles Caused</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. MESSAGE/LETTER SECTION                  -->
+    <!-- ========================================== -->
+    <section id="letter" class="reveal-on-scroll">
+        <h2 class="section-title">A Message For You</h2>
+        <p class="section-subtitle">A few honest, warm words for the birthday girl. Scroll slowly to read.</p>
+
+        <div class="stationary-letter">
+            <div class="letter-content" id="letter-content-box">
+                <!-- 
+                     The text paragraphs below will reveal sequentially as you scroll.
+                     You can edit this message to fit your exact dynamic with her.
+                -->
+                <p class="reveal-paragraph">Happy Birthday, <span class="girl-name">Teena</span>! 🎂</p>
+
+                <p class="reveal-paragraph">I wanted to make something special for you today to remind you of how
+                    awesome you are. Honestly, finding a women who is as logical, patient, and handles everything so
+                    gracefully (and who actually tolerates my jokes) is pretty rare.</p>
+
+                <p class="reveal-paragraph">I hope this birthday brings you all the happiness, success, and fun you
+                    deserve. May all your secret wishes come true today! 🌟</p>
+
+                <p class="reveal-paragraph">Also, let's be honest, you're getting older but somehow still keeping up
+                    with your charming, witty self. Don't worry, your secrets (and age) are safe with me. 😉</p>
+
+                <p class="reveal-paragraph">Have a wonderful year ahead, <span class="girl-name">Teena</span>! Take
+                    care.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- NEW FEATURE: SPECIAL MESSAGE REVEAL CARD   -->
+    <!-- ========================================== -->
+    <section id="reveal-message" class="reveal-on-scroll">
+        <h2 class="section-title">A Little Secret</h2>
+        <p class="section-subtitle">Tap below to open a hidden envelope containing a special wish. (Click to edit the
+            text!)</p>
+
+        <div class="envelope-wrapper">
+            <div class="envelope-card" id="envelope-card">
+                <div class="envelope-front">
+                    <div class="envelope-seal"><i class="fas fa-heart"></i></div>
+                    <p class="envelope-tap-hint">Tap to Open ✉️</p>
+                </div>
+                <div class="envelope-back">
+                    <div class="secret-content">
+                        <i class="fas fa-quote-left secret-quote-icon"></i>
+                        <p class="secret-text" contenteditable="true" id="secret-message-text">
+                            Teena, you are one of those rare people who bring genuine light and stability wherever you
+                            go. Never lose your spark, your logic, and your warmth. Thank you for being a fantastic
+                            friend! 🌸
+                        </p>
+                        <button class="btn btn-outline close-envelope-btn" id="close-envelope-btn">Close
+                            Envelope</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. CUTE SURPRISES SECTION                  -->
+    <!-- ========================================== -->
+    <section id="interactive" class="reveal-on-scroll">
+        <h2 class="section-title">Interactive Delights</h2>
+        <p class="section-subtitle">A few playful elements to celebrate your day. Give them a try!</p>
+
+        <div class="surprise-grid">
+            <!-- Balloon Spawner -->
+            <div class="surprise-card">
+                <div class="surprise-icon"><i class="fas fa-parachute-box"></i></div>
+                <h3>Balloon Burst</h3>
+                <p>Release a cloud of floating pastel balloons. Click to pop them and catch a mini-confetti burst!</p>
+                <button class="btn" id="balloons-btn">Release Balloons 🎈</button>
+            </div>
+
+            <!-- Wish Candle Cake -->
+            <div class="surprise-card">
+                <div class="surprise-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                <h3>Make a Wish</h3>
+                <p>Think of something wonderful, close your eyes, and blow out the digital birthday candle.</p>
+                <button class="btn" id="wish-btn">Make a Wish ✨</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. FOOTER & CLOSING                        -->
+    <!-- ========================================== -->
+    <section id="closing">
+        <div class="closing-heart">
+            <i class="fas fa-heart"></i>
+        </div>
+        <p class="closing-text">Made with care, just for you</p>
+        <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 8px;">
+            Happy Birthday, <span class="girl-name">Teena</span>! 🎉
+        </p>
+
+        <div class="screenshot-wrap" style="margin-top: 25px;">
+            <button class="btn btn-outline" id="screenshot-btn">
+                <i class="fas fa-camera"></i> Save Surprise Image
+            </button>
+            <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 8px; font-style: italic;">
+                Tip: Click to capture and save a high-quality keepsake image of this surprise.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- MODAL CARD FOR MAKE A WISH                 -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="wish-modal">
+        <div class="modal-card" id="modal-card">
+            <span class="close-btn" id="close-modal-btn">&times;</span>
+
+            <!-- Phase 1: Interactive Candle Cake -->
+            <div class="cake-wrapper" id="cake-wrapper">
+                <h3 class="modal-title">Blow the Candle 🎂</h3>
+                <div class="cake">
+                    <div class="plate"></div>
+                    <div class="cake-layer layer-bottom"></div>
+                    <div class="cake-layer layer-middle"></div>
+                    <div class="cake-layer layer-top"></div>
+                    <div class="icing-drips"></div>
+                    <div class="candle">
+                        <div class="flame" id="cake-flame"></div>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-light); font-style: italic; margin-top: 20px;">
+                    Tap the candle flame to blow it out!
+                </p>
+                <button class="btn" id="blow-btn" style="margin-top: 15px;">Blow Candle 🕯️</button>
+            </div>
+
+            <!-- Phase 2: Wish Success Message -->
+            <div class="wish-reveal-box" id="wish-reveal-box" style="display: none;">
+                <div class="wish-reveal-icon"><i class="fas fa-star"></i></div>
+                <h3 class="modal-title">Wish Sent! 🌟</h3>
+                <p style="font-size: 0.95rem; color: var(--text-color); line-height: 1.6;">
+                    Your birthday wish has floated up to the cosmos. May all your dreams, hopes, and prayers come true,
+                    <span class="girl-name">Teena</span>. You deserve the best! 💖
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT SYSTEM SYSTEM                   -->
+    <!-- ========================================== -->
+    <script>
+        // CONFIGURATION VARIABLES (Edit this easily to customize names or sound)
+        const CONFIG = {
+            name: "Teena",
+            audioUrl: "song.mp3" // Background instrumental track
+        };
+
+        // Populate name references throughout DOM
+        document.querySelectorAll('.girl-name').forEach(el => {
+            el.textContent = CONFIG.name;
+        });
+
+
+        // 1. TYPING ANIMATION (Hero Section)
+        const headingElement = document.getElementById('typewriter-heading');
+        const headingText = `Happy Birthday, ${CONFIG.name}! 🎂`;
+        let charIndex = 0;
+
+        function typeHeading() {
+            if (charIndex < headingText.length) {
+                if (headingElement.innerHTML.endsWith('<span class="typewriter-cursor"></span>')) {
+                    headingElement.innerHTML = headingElement.innerHTML.slice(0, -39);
+                }
+                headingElement.innerHTML += headingText.charAt(charIndex) + '<span class="typewriter-cursor"></span>';
+                charIndex++;
+                setTimeout(typeHeading, 110);
+            }
+        }
+
+
+        // 2. HERO CANVAS PARTICLES (Confetti + Hearts Floating Drift)
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animFrameId;
+        let currentScrollY = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class FloatParticle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 15;
+                this.size = Math.random() * 5 + 3;
+                this.speedY = Math.random() * 0.4 + 0.2;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.opacity = Math.random() * 0.35 + 0.15;
+                this.angle = Math.random() * Math.PI * 2;
+                this.rotSpeed = Math.random() * 0.01 - 0.005;
+                this.isHeart = Math.random() > 0.4;
+
+                // Pastel color array
+                const colors = ['#FFCCD1', '#D47B84', '#EBE5F2', '#8E78A0', '#FFFDFB', '#FFE3A8'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y / 45) * 0.5 + this.speedX;
+                this.angle += this.rotSpeed;
+                if (this.y < -15 || this.x < -15 || this.x > canvas.width + 15) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                // Apply scroll parallax factor based on size
+                const factor = (this.size - 5.5) * 0.15;
+                const drawY = this.y - (currentScrollY * factor);
+                ctx.translate(this.x, drawY);
+                ctx.rotate(this.angle);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+
+                if (this.isHeart) {
+                    ctx.beginPath();
+                    const d = this.size;
+                    ctx.moveTo(0, d / 4);
+                    ctx.quadraticCurveTo(0, 0, d / 2, 0);
+                    ctx.quadraticCurveTo(d, 0, d, d / 4);
+                    ctx.quadraticCurveTo(d, (d * 5) / 8, d / 2, d);
+                    ctx.quadraticCurveTo(0, (d * 5) / 8, 0, d / 4);
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    // Confetti circle
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        const maxParticles = Math.min(22, Math.floor(window.innerWidth / 50));
+        for (let i = 0; i < maxParticles; i++) {
+            particles.push(new FloatParticle());
+        }
+
+        function runCanvasAnim() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animFrameId = requestAnimationFrame(runCanvasAnim);
+        }
+        runCanvasAnim();
+
+
+        // 3. BACKGROUND MUSIC TOGGLER (Muted by default)
+        const audio = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicIcon = musicToggle.querySelector('i');
+
+        if (CONFIG.audioUrl) {
+            audio.querySelector('source').src = CONFIG.audioUrl;
+            audio.load();
+        }
+
+        musicToggle.addEventListener('click', togglePlayMusic);
+
+        function togglePlayMusic() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    musicToggle.classList.remove('muted');
+                    musicIcon.className = 'fas fa-volume-up';
+                }).catch(err => console.log("Audio block error:", err));
+            } else {
+                audio.pause();
+                musicToggle.classList.add('muted');
+                musicIcon.className = 'fas fa-volume-mute';
+            }
+        }
+
+
+        // 4. "CLICK TO BEGIN" ACTIONS
+        const beginBtn = document.getElementById('begin-btn');
+        beginBtn.addEventListener('click', () => {
+            // A. Burst colorful confetti
+            confetti({
+                particleCount: 110,
+                spread: 75,
+                origin: { y: 0.6 },
+                colors: ['#FFCCD1', '#D47B84', '#EBE5F2', '#8E78A0', '#FFFDFB', '#FFE3A8']
+            });
+
+            // B. Unmute and start music loop automatically
+            if (audio.paused) {
+                audio.play().then(() => {
+                    musicToggle.classList.remove('muted');
+                    musicIcon.className = 'fas fa-volume-up';
+                }).catch(err => console.log("Audio failed to play:", err));
+            }
+
+            // C. Smooth scroll down to next section
+            setTimeout(() => {
+                document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+            }, 800);
+        });
+
+        // Bouncing arrow scroll trigger
+        document.getElementById('scroll-arrow').addEventListener('click', () => {
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        });
+
+
+        // 5. SLIDESHOW SYSTEM (MEMORIES)
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const dotsRow = document.getElementById('dots-row');
+        let currentIdx = 0;
+        let slideTimer;
+        let resumeTimeout;
+
+        // Generate dots
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('indicator-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToSlide(idx, true);
+                restartTimer();
+            });
+            dotsRow.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.indicator-dot');
+
+        function updateSlideshow(isManual = false) {
+            slides.forEach((slide, idx) => {
+                if (isManual) {
+                    slide.classList.add('instant');
+                } else {
+                    slide.classList.remove('instant');
+                }
+
+                if (idx === currentIdx) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            if (isManual) {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        slides.forEach(slide => slide.classList.remove('instant'));
+                    });
+                });
+            }
+
+            dots.forEach((dot, idx) => {
+                if (idx === currentIdx) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide(isManual = false) {
+            currentIdx = (currentIdx + 1) % slides.length;
+            updateSlideshow(isManual);
+        }
+
+        function prevSlide(isManual = false) {
+            currentIdx = (currentIdx - 1 + slides.length) % slides.length;
+            updateSlideshow(isManual);
+        }
+
+        function goToSlide(idx, isManual = false) {
+            currentIdx = idx;
+            updateSlideshow(isManual);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide(true);
+            restartTimer();
+        });
+        prevBtn.addEventListener('click', () => {
+            prevSlide(true);
+            restartTimer();
+        });
+
+        // Touch Swipe Gestures for Mobile
+        const slideshowWrapper = document.querySelector('.slideshow-wrapper');
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        slideshowWrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        slideshowWrapper.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+                if (diffX < 0) {
+                    nextSlide(true);
+                } else {
+                    prevSlide(true);
+                }
+                restartTimer();
+            }
+        }
+
+        function startTimer() {
+            slideTimer = setInterval(() => {
+                nextSlide(false);
+            }, 4500);
+        }
+
+        function restartTimer() {
+            clearInterval(slideTimer);
+            clearTimeout(resumeTimeout);
+            resumeTimeout = setTimeout(() => {
+                startTimer();
+            }, 8000); // 8 seconds pause on manual navigation
+        }
+
+        startTimer();
+
+
+        // Editable slide captions with LocalStorage persistence
+        document.querySelectorAll('.slide-caption').forEach((caption, idx) => {
+            // Load saved caption if it exists
+            const saved = localStorage.getItem(`caption_teena_${idx}`);
+            if (saved) {
+                caption.textContent = saved;
+            }
+
+            // Sync edits back to LocalStorage on blur
+            caption.addEventListener('blur', () => {
+                localStorage.setItem(`caption_teena_${idx}`, caption.textContent.trim());
+            });
+
+            // Prevent slide autoplay when editing caption (focusing)
+            caption.addEventListener('focus', () => {
+                clearInterval(slideTimer);
+                clearTimeout(resumeTimeout);
+            });
+
+            // Resume autoplay on blur
+            caption.addEventListener('blur', () => {
+                restartTimer();
+            });
+
+            // Blur on enter key
+            caption.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    caption.blur();
+                }
+            });
+        });
+
+
+        // Procedural Audio Pop sound generator using Web Audio API
+        function playPopSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const audioCtx = new AudioContext();
+
+                // Sound synthesis nodes
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                // Set parameters
+                const now = audioCtx.currentTime;
+
+                // Rapid frequency pitch sweep downwards to simulate a pop
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+                // Fast envelope gain decay
+                gainNode.gain.setValueAtTime(0.18, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+                osc.start(now);
+                osc.stop(now + 0.12);
+            } catch (e) {
+                console.warn("Web Audio API not supported or blocked:", e);
+            }
+        }
+
+
+        // 6. SURPRISE SECTION - BALLOON RELEASE SYSTEM
+        const balloonsBtn = document.getElementById('balloons-btn');
+        balloonsBtn.addEventListener('click', releaseBalloons);
+
+        function releaseBalloons() {
+            const colors = ['#FFCCD1', '#D47B84', '#EBE5F2', '#8E78A0', '#FFE3A8', '#C3E8E5'];
+            const qty = 15;
+
+            for (let i = 0; i < qty; i++) {
+                setTimeout(() => {
+                    spawnBalloon(colors);
+                }, i * 200);
+            }
+        }
+
+        function spawnBalloon(colors) {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.backgroundColor = color;
+            balloon.dataset.color = color;
+
+            // Dimensions
+            const w = Math.random() * 20 + 52;
+            const h = w * 1.25;
+            balloon.style.width = `${w}px`;
+            balloon.style.height = `${h}px`;
+            balloon.style.left = `${Math.random() * 85 + 7.5}%`;
+
+            // Knot
+            const knot = document.createElement('div');
+            knot.classList.add('balloon-knot');
+            knot.style.borderBottomColor = color;
+            balloon.appendChild(knot);
+
+            // String
+            const string = document.createElement('div');
+            string.classList.add('balloon-string');
+            balloon.appendChild(string);
+
+            // Animation timings
+            const speed = Math.random() * 3 + 5.5;
+            const sway = Math.random() * 1.5 + 2;
+
+            balloon.style.animation = `
+                floatBalloon ${speed}s linear forwards, 
+                swayBalloon ${sway}s ease-in-out infinite alternate
+            `;
+
+            // Tap/click handler
+            const handlePop = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                popBalloon(balloon);
+            };
+
+            balloon.addEventListener('click', handlePop);
+            balloon.addEventListener('touchstart', handlePop, { passive: false });
+
+            document.body.appendChild(balloon);
+
+            setTimeout(() => {
+                if (balloon.parentNode) {
+                    balloon.remove();
+                }
+            }, speed * 1000);
+        }
+
+        function popBalloon(balloon) {
+            balloon.classList.add('popping');
+
+            // Trigger procedural balloon pop sound
+            playPopSound();
+
+            const rect = balloon.getBoundingClientRect();
+            const bx = (rect.left + rect.width / 2) / window.innerWidth;
+            const by = (rect.top + rect.height / 2) / window.innerHeight;
+
+            confetti({
+                particleCount: 15,
+                spread: 45,
+                origin: { x: bx, y: by },
+                colors: [balloon.dataset.color, '#FFFFFF']
+            });
+
+            const popText = document.createElement('div');
+            popText.innerText = 'POP! 💥';
+            popText.style.position = 'fixed';
+            popText.style.left = `${rect.left + rect.width / 2 - 25}px`;
+            popText.style.top = `${rect.top}px`;
+            popText.style.color = 'var(--blush-deep)';
+            popText.style.fontFamily = 'var(--font-heading)';
+            popText.style.fontWeight = 'bold';
+            popText.style.fontSize = '0.9rem';
+            popText.style.zIndex = '1001';
+            popText.style.pointerEvents = 'none';
+            popText.style.animation = 'fadePopUp 0.8s ease-out forwards';
+
+            popText.style.setProperty('--target-y', `${rect.top - 30}px`);
+            document.body.appendChild(popText);
+
+            setTimeout(() => {
+                popText.remove();
+                if (balloon.parentNode) {
+                    balloon.remove();
+                }
+            }, 800);
+        }
+
+
+        // 7. SURPRISE SECTION - MAKE A WISH MODAL
+        const wishBtn = document.getElementById('wish-btn');
+        const wishModal = document.getElementById('wish-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const cakeFlame = document.getElementById('cake-flame');
+        const cakeBlowBtn = document.getElementById('blow-btn');
+        const cakeWrapper = document.getElementById('cake-wrapper');
+        const wishRevealBox = document.getElementById('wish-reveal-box');
+
+        wishBtn.addEventListener('click', () => {
+            cakeWrapper.style.display = 'flex';
+            wishRevealBox.style.display = 'none';
+            cakeFlame.classList.remove('blown');
+            wishModal.classList.add('open');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            wishModal.classList.remove('open');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === wishModal) {
+                wishModal.classList.remove('open');
+            }
+        });
+
+        cakeFlame.addEventListener('click', blowOutCandle);
+        cakeBlowBtn.addEventListener('click', blowOutCandle);
+
+        function blowOutCandle() {
+            if (cakeFlame.classList.contains('blown')) return;
+
+            cakeFlame.classList.add('blown');
+
+            // Fire main sparkles confetti
+            confetti({
+                particleCount: 90,
+                spread: 70,
+                origin: { y: 0.5 },
+                colors: ['#FFCCD1', '#FFE3A8', '#EBE5F2', '#FFFDFB']
+            });
+
+            // Transition from cake to wish text card
+            setTimeout(() => {
+                cakeWrapper.style.display = 'none';
+                wishRevealBox.style.display = 'flex';
+
+                // Slow star burst
+                confetti({
+                    particleCount: 30,
+                    spread: 80,
+                    origin: { y: 0.4 },
+                    colors: ['#FFE3A8', '#FFFFFF']
+                });
+            }, 1100);
+        }
+
+
+        // 8. MOUSE HEART TRAIL (Lightweight & fast fading)
+        let lastTrail = 0;
+
+        function drawTrailHeart(x, y) {
+            const now = Date.now();
+            if (now - lastTrail < 75) return;
+            lastTrail = now;
+
+            const trail = document.createElement('div');
+            trail.classList.add('trail-heart-node');
+            trail.style.left = `${x - 6}px`;
+            trail.style.top = `${y - 6}px`;
+            trail.style.backgroundColor = 'rgba(212, 123, 132, 0.45)';
+
+            document.body.appendChild(trail);
+
+            setTimeout(() => {
+                trail.remove();
+            }, 900);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            drawTrailHeart(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                drawTrailHeart(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+
+        // 9. INTERSECTION OBSERVER FOR PARAGRAPH REVEALS & STATS
+        const observerOptions = {
+            root: null,
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const paragraphObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    if (entry.target.id === 'counters') {
+                        animateCounters();
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(sect => {
+            sectionObserver.observe(sect);
+        });
+
+        document.querySelectorAll('.reveal-paragraph').forEach(p => {
+            paragraphObserver.observe(p);
+        });
+
+
+        // 10. SCROLL PROGRESS & CANVAS PARALLAX EVENT BINDING
+        window.addEventListener('scroll', () => {
+            currentScrollY = window.scrollY || window.pageYOffset;
+
+            // Scroll progress bar calculation
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            const progressBar = document.getElementById('scroll-progress');
+            if (progressBar) {
+                progressBar.style.width = scrolled + '%';
+            }
+        }, { passive: true });
+
+        // Memories Loading Screen handler
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading-screen');
+                if (loader) {
+                    loader.classList.add('fade-out');
+                }
+                document.body.classList.add('loaded');
+
+                // Start typing animation after loader fades out
+                setTimeout(typeHeading, 500);
+            }, 1800);
+        });
+
+
+        // ==========================================
+        // NEW FEATURE: ANIMATED STATS COUNTER CODE
+        // ==========================================
+        function animateCounters() {
+            const countersList = document.querySelectorAll('.counter-num');
+            countersList.forEach(counter => {
+                const id = counter.id;
+                // Retrieve user-edited target number from local storage, or fall back to dataset target
+                const savedTarget = localStorage.getItem(`target_num_teena_${id}`);
+                const target = parseInt(savedTarget || counter.getAttribute('data-target') || '0', 10);
+                const suffix = counter.getAttribute('data-suffix') || '';
+
+                let start = 0;
+                const duration = 2000; // 2 seconds
+                const startTime = performance.now();
+
+                function updateCount(timestamp) {
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Ease out quadratic
+                    const easeProgress = progress * (2 - progress);
+                    const current = Math.floor(easeProgress * target);
+
+                    // Don't update if currently focused (user is editing)
+                    if (document.activeElement !== counter) {
+                        counter.textContent = current + suffix;
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCount);
+                    } else if (document.activeElement !== counter) {
+                        counter.textContent = target + suffix;
+                    }
+                }
+
+                requestAnimationFrame(updateCount);
+            });
+        }
+
+        // Editable Stats counter values persistence
+        document.querySelectorAll('.counter-num').forEach(counter => {
+            const id = counter.id;
+
+            // Load saved target on page load
+            const savedTarget = localStorage.getItem(`target_num_teena_${id}`);
+            if (savedTarget) {
+                counter.setAttribute('data-target', savedTarget);
+                counter.textContent = savedTarget + (counter.getAttribute('data-suffix') || '');
+            }
+
+            // Sync edits back to LocalStorage on blur
+            counter.addEventListener('blur', () => {
+                const cleanVal = counter.textContent.replace(/[^0-9]/g, '');
+                if (cleanVal) {
+                    localStorage.setItem(`target_num_teena_${id}`, cleanVal);
+                    counter.setAttribute('data-target', cleanVal);
+                    counter.textContent = cleanVal + (counter.getAttribute('data-suffix') || '');
+                } else {
+                    counter.textContent = counter.getAttribute('data-target') + (counter.getAttribute('data-suffix') || '');
+                }
+            });
+
+            // Blur on enter key
+            counter.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    counter.blur();
+                }
+            });
+        });
+
+        // Editable Stats labels persistence
+        document.querySelectorAll('.counter-label').forEach(label => {
+            const id = label.id;
+            const savedLabel = localStorage.getItem(`label_teena_${id}`);
+            if (savedLabel) {
+                label.textContent = savedLabel;
+            }
+
+            label.addEventListener('blur', () => {
+                localStorage.setItem(`label_teena_${id}`, label.textContent.trim());
+            });
+
+            label.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    label.blur();
+                }
+            });
+        });
+
+
+        // ==========================================
+        // NEW FEATURE: SPECIAL MESSAGE ENVELOPE CODE
+        // ==========================================
+        const envelopeCard = document.getElementById('envelope-card');
+        const closeEnvelopeBtn = document.getElementById('close-envelope-btn');
+        const secretMessageText = document.getElementById('secret-message-text');
+
+        if (envelopeCard) {
+            envelopeCard.addEventListener('click', (e) => {
+                // If clicking inside editable text area, do not close/flip the envelope
+                if (e.target.closest('#secret-message-text')) {
+                    return;
+                }
+                envelopeCard.classList.add('open');
+            });
+        }
+
+        if (closeEnvelopeBtn) {
+            closeEnvelopeBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent trigger envelope flip-open again
+                envelopeCard.classList.remove('open');
+            });
+        }
+
+        // Editable secret envelope message persistence
+        if (secretMessageText) {
+            const savedSecret = localStorage.getItem('secret_envelope_message_teena');
+            if (savedSecret) {
+                secretMessageText.textContent = savedSecret;
+            }
+
+            secretMessageText.addEventListener('blur', () => {
+                localStorage.setItem('secret_envelope_message_teena', secretMessageText.textContent.trim());
+            });
+
+            secretMessageText.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    secretMessageText.blur();
+                }
+            });
+        }
+
+
+        // ==========================================
+        // FEATURE: DOWNLOAD SCREENSHOT VIA HTML2CANVAS
+        // ==========================================
+        const screenshotBtn = document.getElementById('screenshot-btn');
+        if (screenshotBtn) {
+            screenshotBtn.addEventListener('click', () => {
+                // Temporarily hide elements that shouldn't show in screenshot
+                const musicToggleBtn = document.getElementById('music-toggle');
+                const progressContainer = document.querySelector('.scroll-progress-container');
+                const screenshotWrapper = document.querySelector('.screenshot-wrap');
+
+                if (musicToggleBtn) musicToggleBtn.style.visibility = 'hidden';
+                if (progressContainer) progressContainer.style.visibility = 'hidden';
+                if (screenshotWrapper) screenshotWrapper.style.visibility = 'hidden';
+
+                // Render the page
+                html2canvas(document.body, {
+                    useCORS: true,
+                    scale: 2, // High resolution
+                    backgroundColor: '#FCF7F5'
+                }).then(canvas => {
+                    // Restore UI elements
+                    if (musicToggleBtn) musicToggleBtn.style.visibility = 'visible';
+                    if (progressContainer) progressContainer.style.visibility = 'visible';
+                    if (screenshotWrapper) screenshotWrapper.style.visibility = 'visible';
+
+                    // Download image
+                    const link = document.createElement('a');
+                    link.download = 'Happy-Birthday-Teena-Surprise.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch(err => {
+                    console.error("Screenshot error:", err);
+                    // Restore elements in case of error
+                    if (musicToggleBtn) musicToggleBtn.style.visibility = 'visible';
+                    if (progressContainer) progressContainer.style.visibility = 'visible';
+                    if (screenshotWrapper) screenshotWrapper.style.visibility = 'visible';
+                });
+            });
+        }
+    </script>etTimeout(typeHeading, 500);
+    }, 1800);
+    });
+    </script>
+
+    <!-- Popping fade rule injected inline -->
+    <style>
+        @keyframes fadePopUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.9);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(0) scale(1.1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.85);
+            }
+        }
+    </style>
+</body>
+
+</html>
